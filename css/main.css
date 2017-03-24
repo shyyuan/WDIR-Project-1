@@ -1,3 +1,29 @@
+* { border: 1px solid red;}
 body {
   background: lightblue;
+  text-align: center;
+}
+
+#info {
+  display: flex;
+}
+
+h3 {
+  display: inline-block;
+  margin: 0 auto;
+}
+
+#gameBoard {
+  /*height: 800px;
+  width: 800px;*/
+  margin: 0 auto;
+}
+
+.card {
+  height: 110px;
+  width: 80px;
+  border: 1px solid black;
+  border-radius: 10px;
+  display: inline-block;
+  background: yellow;
 }
