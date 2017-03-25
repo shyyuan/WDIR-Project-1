@@ -6,14 +6,24 @@ $(function(){
 }) /// End of Window onload
 
 // Global Varibales
-var level = 0;
+var level = 1;
 var live = level+2;
 var numCards = Math.pow((level+1)*2,2);
 var $board = $('#gameBoard');
 var width = 80;
 var height = 80;
 var playerScore = 0;
+
+// per round variables
 var gameCards = [];
+var gameCardsClided = [];
+var cardClicked = [];
+
+var resetLevel = function(){
+  gameCards = [];
+  gameCardsClicked = [];
+  cardClicked = [];
+}
 
 // function to generate random whole numbner between max and min
 // Math.floor(Math.random * (max-min+1)) + min
@@ -53,7 +63,7 @@ var createGameCards = function(){
         return element.cardPosition == tempCardsPosition[i];
     })[0].cardValue=tempCards[i];
   }
-  console.log(gameCards);
+  //console.log(gameCards);
 } // end of createGameCards
 
 // generateBoard function
@@ -65,7 +75,7 @@ var generateBoard = function(num){
   // for loop to generate the cards
   for (var i=1; i<=num; i++){
     // create card div, add id and class
-    var $card = $('<div>').attr('id','card'+i).addClass('card').text(i);
+    var $card = $('<div>').attr('id','card'+i).addClass('card');
     // set click listener on each card
     $card.on('click',flipCard);
     // append to gameBoard div
@@ -81,19 +91,42 @@ var generateBoard = function(num){
 } // end of generateQuilt
 
 var flipCard = function(){
-  console.log('card clicked');
   var tempP = $(this).attr('id').replace('card','');
   var value = gameCards.filter(function(element){
     return element.cardPosition == tempP;
   })[0].cardValue;
-  console.log(value);
-  $(this).text(value).css('background','lightgreen')
 
+  if (gameCardsClicked.filter(function(element){
+    return element[0] == tempP
+  }).length === 0 ) {
+    var tempArr = [tempP,value];
+    cardClicked.push(tempArr);
+    $(this).text(value).css('background','lightgreen')
+    console.log(cardClicked);
+    if (cardClicked.length === 2){
+      isMatch(cardClicked);
+    }
+  }
+  if (gameCardsClicked.length === numCards) {
+    console.log('Level round over, move to next level');
+    level++;
+  }
+} // End of flipCard function
 
+var isMatch = function(twoCards){
+  if(twoCards[0][1] === twoCards[1][1]) {
+    console.log('match');
+    gameCardsClided = gameCardsClicked.concat(twoCards);
+   console.log(gameCardsClicked);
+  } else {
+    console.log('no match');
 
+  }
 
-
+  cardClicked=[];
 }
+
+
 
 
 // evoke the function

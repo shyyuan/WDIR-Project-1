@@ -20,14 +20,17 @@ h3 {
 }
 
 .card {
+  cursor: pointer;
   height: 80px;
   width: 80px;
   border: 1px solid black;
   border-radius: 10px;
   display: inline-block;
   background: yellow;
+  font-size: 65px;
+  overflow: auto;
 }
 
 .cardFliped {
-  
+
 }
