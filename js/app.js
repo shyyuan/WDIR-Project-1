@@ -23,6 +23,9 @@ var generateNum = function(max,min){
 
 //function to create the cards in player
 var createGameCards = function(){
+  // generate random, no repeat numbers (0-99) and put into a temp array.  The number of the number set is half the cards.
+  // if 4 Cards on the board, generate 2 numbers
+  // if 100 cards on teh board, generate 50 numbers
   var tempCards = [];
   for(var i=1; i<=numCards/2; i++){
     var num = generateNum(99,0);
@@ -32,9 +35,9 @@ var createGameCards = function(){
       i--;
     }
   }
+  // duplicate the number set and put together
   tempCards = tempCards.concat(tempCards);
-  console.log(tempCards);
-
+  // generate random distribute position set
   var tempCardsPosition = [];
   for(var i=1; i<=numCards; i++){
     var num = generateNum(numCards,1);
@@ -44,19 +47,14 @@ var createGameCards = function(){
       i--;
     }
   }
-  console.log(tempCardsPosition);
+  // distribute the into gameCards
   for (var i=0; i<tempCardsPosition.length; i++){
     var arr = gameCards.filter(function(element){
         return element.cardPosition == tempCardsPosition[i];
     })[0].cardValue=tempCards[i];
-    //console.log(arr);
   }
   console.log(gameCards);
-}
-
-
-
-
+} // end of createGameCards
 
 // generateBoard function
 var generateBoard = function(num){
@@ -77,14 +75,24 @@ var generateBoard = function(num){
     gameCards.push(tempObj);
 
   } // end of for loop
-  console.log(gameCards);
+
   createGameCards();
 
 } // end of generateQuilt
 
 var flipCard = function(){
   console.log('card clicked');
-  $(this).css('background','lightgreen')
+  var tempP = $(this).attr('id').replace('card','');
+  var value = gameCards.filter(function(element){
+    return element.cardPosition == tempP;
+  })[0].cardValue;
+  console.log(value);
+  $(this).text(value).css('background','lightgreen')
+
+
+
+
+
 }
 
 
