@@ -1,4 +1,4 @@
-* { border: 1px solid red;}
+/** { border: 1px solid red;}*/
 body {
   background: lightblue;
   text-align: center;
@@ -40,6 +40,13 @@ h3 {
 .questionMark {
   width: 80px;
   height:80px;
+  transition: transform .3s ease-in-out;
+  -webkit-transition: -webkit-transform: .3s ease-in-out;
+
+}
+.questionMark:hover {
+  transform: rotate(180deg);
+  -webkit-transform: rotate(180-deg);
 }
 .smile {
   width:30px;
@@ -50,4 +57,8 @@ button {
   height:25px;
   border: 1px solid black;
   border-radius: 8px;
+}
+
+#type {
+  font-size: 0.8em;
 }
