@@ -36,7 +36,11 @@ h3 {
 
 }
 
-img {
+.questionMark {
   width: 80px;
   height:80px;
+}
+.smile {
+  width:30px;
+  height:30px;
 }

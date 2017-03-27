@@ -15,7 +15,8 @@ var APP = {
   width: 80,
   height: 80,
   playerScore: 0,
-  img: '<img src="image/question_mark.png">',
+  questionMarkImg: '<img src="images/question_mark.png" class="questionMark">',
+  smileImg: '<img src="images/smile.png" class="smile">',
   // per round variables
   gameCards: [], // An array to store object {cardPosition, cardValue}
   gameCardsClicked:[], // An array to store cardPostion number
@@ -34,8 +35,9 @@ var UI = {
   // 1 1 1 1 1 1
   // generateBoard funrction
   generateBoard: function(level){
-    APP.live = level+2;
-    APP.numCards = Math.pow((level+1)*2,2);
+    var localLevel = parseInt(level);
+    APP.live = (localLevel+1)*2;
+    APP.numCards = Math.pow((localLevel+1)*2,2);
     //console.log(numCards);
     // set board width and heigh based on number of cards
     var boardWidth = (level+1)*2*(APP.width+5)+'px';
@@ -45,7 +47,7 @@ var UI = {
     for (var i=1; i<=APP.numCards; i++){
       // create card div, add id and class
       var $card = $('<div>').attr('id','card'+i).addClass('card');
-      $card.append(APP.img);
+      $card.append(APP.questionMarkImg);
       // set click listener on each card
       $card.on('click',UI.flipCard);
       // append to gameBoard div
@@ -57,7 +59,14 @@ var UI = {
       //console.log(gameCards.cardPosition);
     } // end of for loop
     //console.log('game cards ' + gameCards);
-    $('#feedback h4').text('Click a card to start').css('color','black');    
+    var displayLevel = localLevel+1;
+    $('#level').text('Level: ' + displayLevel);
+    $('#chance').text('Lives: ');
+    for (var i=1; i<=APP.live; i++) {
+      $('#chance').append(APP.smileImg);
+    }
+
+    $('#feedback h4').text('Click a card to start').css('color','black');
     UI.createGameCards(APP.numCards);
   }, // end of generateQuilt
   // 2 2 2 2 2 2
