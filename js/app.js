@@ -36,7 +36,7 @@ var UI = {
   // generateBoard funrction
   generateBoard: function(level){
     var localLevel = parseInt(level);
-    APP.live = (localLevel+1)*2;
+    APP.live = APP.live + (localLevel+1)*2;
     APP.numCards = Math.pow((localLevel+1)*2,2);
     //console.log(numCards);
     // set board width and heigh based on number of cards
@@ -62,10 +62,10 @@ var UI = {
     var displayLevel = localLevel+1;
     $('#level').text('Level: ' + displayLevel);
     $('#chance').text('Lives: ');
-    for (var i=1; i<=APP.live; i++) {
-      $('#chance').append(APP.smileImg);
-    }
-
+    // for (var i=1; i<=APP.live; i++) {
+    //   $('#chance').append(APP.smileImg);
+    // }
+    UI.updateSmileFace();
     $('#feedback h4').text('Click a card to start').css('color','black');
     UI.createGameCards(APP.numCards);
   }, // end of generateQuilt
@@ -137,8 +137,11 @@ var UI = {
       console.log('match');
       APP.gameCardsClicked.push(twoCards[0][0]);
       APP.gameCardsClicked.push(twoCards[1][0]);
-      console.log('Stay flipped cards: ' + APP.gameCardsClicked);
-
+      console.log('Stay flipped cards: ' + APP.gameCardsClicked );
+      console.log(APP.live);
+      APP.live++;
+      console.log(APP.live);
+      UI.updateSmileFace();
       $('#feedback h4').text('You found a match.').css('color','green');
       if (APP.gameCardsClicked.length === APP.numCards) {
         console.log('Level round over, move to next level');
@@ -148,13 +151,18 @@ var UI = {
       console.log('no match');
       $('#feedback h4').text('Sorry, try again.').css('color','red');
 
-      setTimeout(function() {flipBack();},500);
+      setTimeout(function() {flipBack();},700);
       var flipBack = function(){
         console.log('flip back');
+        console.log(APP.live);
+        APP.live--;
+        console.log(APP.live);
+        UI.updateSmileFace();
+
         $('#card'+twoCards[0][0]).text('').css('background','yellow');
-        $('#card'+twoCards[0][0]).append(APP.img);
+        $('#card'+twoCards[0][0]).append(APP.questionMarkImg);
         $('#card'+twoCards[1][0]).text('').css('background','yellow');
-        $('#card'+twoCards[1][0]).append(APP.img);
+        $('#card'+twoCards[1][0]).append(APP.questionMarkImg);
         $('#feedback h4').text('Click a card').css('color','black');
 
       }
@@ -178,7 +186,15 @@ var UI = {
     $('#gameBoard').children('div').remove();
     APP.level++;
     UI.generateBoard(APP.level);
+  },
+  // 7 7 7 7 7 7
+  updateSmileFace: function(){
+    $('#chance').children('img').remove();
+    for (var i=1; i<=APP.live; i++) {
+      $('#chance').append(APP.smileImg);
+    }
   }
+
 } // end of UI Object
 // ********************************************************
 
