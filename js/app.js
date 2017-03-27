@@ -1,7 +1,9 @@
 console.log('Project 1 js file is connected');
 // Window onloader ***********************************
 $(function(){
-  //console.log('Inside window onload');
+  // Event Listener
+  $('#resetLevel').on('click', UI.resetLevel);
+  $('#resetGame').on('click', UI.resetGame);
 
 }) /// End of Window onload **************************
 
@@ -172,17 +174,17 @@ var UI = {
   }, // end of isMatch checking
   // 5 5 5 5 5 5
   // reset level round
-  resetLevel: function(){
+  resetLevelVariables: function(){
     APP.gameCards = [];
     APP.gameCardsClicked = [];
     APP.cardClicked = [];
-    $('#gameBoard div').text('').css('background','yellow');
-    $('#gameBoard div').append(APP.img);
+    //$('#gameBoard div').text('').css('background','yellow');
+    //$('#gameBoard div').append(APP.img);
   },
   // 6 6 6 6 6 6 6
   // move one level up
   levelUp: function(){
-    UI.resetLevel();
+    UI.resetLevelVariables();
     $('#gameBoard').children('div').remove();
     APP.level++;
     UI.generateBoard(APP.level);
@@ -193,6 +195,18 @@ var UI = {
     for (var i=1; i<=APP.live; i++) {
       $('#chance').append(APP.smileImg);
     }
+  },
+  // 8 8 8 8 8 8 8
+  resetLevel: function(){
+    UI.resetLevelVariables();
+    $('#gameBoard').children('div').remove();
+    APP.live = 0;
+    UI.generateBoard(APP.level);
+  },
+  // 9 9 9 9 9 9
+  resetGame: function(){
+    APP.level = 0;
+    UI.resetLevel();
   }
 
 } // end of UI Object
