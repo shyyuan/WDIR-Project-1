@@ -29,8 +29,14 @@ h3 {
   background: yellow;
   font-size: 65px;
   overflow: auto;
+  /*background-image: url('image/question_mark.png');*/
 }
 
 .cardFliped {
 
+}
+
+img {
+  width: 80px;
+  height:80px;
 }
