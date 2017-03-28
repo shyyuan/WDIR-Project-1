@@ -43,8 +43,8 @@ h3 {
 .questionMark {
   width: 80px;
   height:80px;
-  transition: transform .3s ease-in-out;
-  -webkit-transition: -webkit-transform: .3s ease-in-out;
+  transition: transform .1s ease-in-out;
+  -webkit-transition: -webkit-transform: .1s ease-in-out;
 
 }
 .questionMark:hover {
@@ -55,8 +55,8 @@ h3 {
   width:30px;
   height:30px;
   position: relative;
-  transition: all 1s ease-in-out;
-  -webkit-transition: all 1s ease-in-out;
+  transition: all 2s ease-in-out;
+  -webkit-transition: all 2s ease-in-out;
 }
 .smile:hover{
   top: -30px;

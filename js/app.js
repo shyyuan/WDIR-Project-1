@@ -190,36 +190,44 @@ var UI = {
   // 5 5 5 5 5 5
   // flip the card that clicked
   flipCard: function(){
-    if (APP.live !== 0){
+    var clickable = false;
+    var tempP = $(this).attr('id').replace('card','');
+    var value = APP.gameCards.filter(function(element){
+      return element.cardPosition == tempP;
+    })[0].cardValue;
+
+    if (// cannot click the already flipped cards
+        APP.gameCardsClicked.filter(function(element){
+          return element == tempP
+        }).length === 0
+        && // cannot click on the same card
+        APP.cardClicked.filter(function(element){
+          return element[0] === tempP;
+        }).length === 0
+       ) {
+         clickable = true;
+    }
+
+    console.log('clickable = ' +clickable);
+    if (APP.live !== 0 && clickable){
       $('#feedback h4').text('Click another card').css('color','black');
 
-      var tempP = $(this).attr('id').replace('card','');
-      var value = APP.gameCards.filter(function(element){
-          return element.cardPosition == tempP;
-      })[0].cardValue;
+      var tempArr = [tempP,value];
+      APP.cardClicked.push(tempArr);
+      if (APP.$type === 'number') {
+        $(this).text(value).css('background','lightgreen')
+        //console.log('Card clicked '+cardClicked);
+      } else if (APP.$type === 'card') {
+        $(this).children('.questionMark').remove();
+        $(this).css('background','green');
+        $(this).append('<img src="images/cards/'+value+'" class="cards">');
+      } else if (APP.$type === 'fruit') {
+        $(this).children('.questionMark').remove();
+        $(this).css('background','green');            $(this).append('<img src="images/fruit_veg_img/'+value+'" class="fruits">');
+      }
 
-      if (APP.gameCardsClicked.filter(function(element){
-          return element == tempP
-      }).length === 0 ) {
-
-        var tempArr = [tempP,value];
-        APP.cardClicked.push(tempArr);
-        if (APP.$type === 'number') {
-          $(this).text(value).css('background','lightgreen')
-          //console.log('Card clicked '+cardClicked);
-        } else if (APP.$type === 'card') {
-          $(this).children('.questionMark').remove();
-          $(this).css('background','green');
-          $(this).append('<img src="images/cards/'+value+'" class="cards">');
-        } else if (APP.$type === 'fruit') {
-          $(this).children('.questionMark').remove();
-          $(this).css('background','green');
-          $(this).append('<img src="images/fruit_veg_img/'+value+'" class="fruits">');
-        }
-
-        if (APP.cardClicked.length === 2){
-          UI.isMatch(APP.cardClicked);
-        }
+      if (APP.cardClicked.length === 2){
+        UI.isMatch(APP.cardClicked);
       }
     }
   }, // End of flipCard function
