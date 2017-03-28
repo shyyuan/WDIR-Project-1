@@ -23,6 +23,7 @@ var APP = {
   playerScore: 0,
   questionMarkImg: '<img src="images/question_mark.png" class="questionMark">',
   smileImg: '<img src="images/smile.png" class="smile">',
+  maintain: '<img src="images/maintain.jpg" class="maintain">',
   // per round variables
   gameCards: [], // An array to store object {cardPosition, cardValue}
   gameCardsClicked:[], // An array to store cardPostion number
@@ -69,19 +70,26 @@ var UI = {
     $('#feedback').children().show();
     if ($player == 1) {
       console.log('one players ' + $player);
+
       UI.generateBoard();
     } else if ($player == 2) {
       console.log('two players ' +$player);
+      $('#cardTypeText').hide();
+      $('#cardTypeSelet').hide();
+      $('#buttons').children('#resetLevel').hide();
       UI.underConstruction();
     } else if ($player == 'C') {
       console.log('again computer ' +$player);
+      $('#cardTypeText').hide();
+      $('#cardTypeSelet').hide();
+      $('#buttons').children('#resetLevel').hide();
       UI.underConstruction();
     }
   },
 
   // 2 2 2 2 2 2
   clearCardDiv: function() {
-    $('#gameBoard').children('div').remove();
+    APP.$board.children('').remove();
   },
   // 3 3 3 3 3 3
   // generateBoard funrction
@@ -230,6 +238,7 @@ var UI = {
         if (APP.live !== 0){
           $('#feedback h4').text('Click a card').css('color','black');
         } else {
+          UI.clearCardDiv();
           $('#feedback h4').text('Game over. Thank you for playing.').css('color','red');
         }
       }
@@ -277,7 +286,12 @@ var UI = {
   // 11 11 11 11 11 11
   resetGame: function(){
     APP.level = 1;
-    UI.resetLevel();
+    UI.resetLevelVariables();
+    location.reload();
+  },
+  underConstruction: function(){
+    UI.clearCardDiv();
+    APP.$board.append(APP.maintain);
   }
 
 
