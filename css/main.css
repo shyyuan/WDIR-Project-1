@@ -54,6 +54,12 @@ h3 {
 .smile {
   width:30px;
   height:30px;
+  position: relative;
+  transition: all 1s ease-in-out;
+  -webkit-transition: all 1s ease-in-out;
+}
+.smile:hover{
+  top: -30px;
 }
 
 button {
@@ -62,7 +68,18 @@ button {
   border-radius: 8px;
   display:inline-block;
 }
+ button:hover {
+   background-color: white;
+   font-weight: bold;
+ }
 
-#cardTypeSelet {
+#cardTypeSelect {
   font-size: 0.8em;
+}
+.fruits {
+  width: 80px;
+  height: 80px;
+}
+.cards {
+  height: 80px;
 }

@@ -3,7 +3,7 @@ console.log('Project 1 js file is connected');
 $(function(){
   // Event Listener
   $('#go').on('click', UI.setPlayer);
-  $('#type').on('change', APP.setType);
+  $('#cardTypeSelect').on('change', APP.setType);
   $('#resetLevel').on('click', UI.resetLevel);
   $('#resetGame').on('click', UI.resetGame);
 
@@ -34,8 +34,10 @@ var APP = {
     return Math.floor(Math.random()* (max-min+1)) + min;
   }, // end of generateNum
   setType: function(){
-    APP.$type = $('#type option:selected').val(),
-    //console.log('Selected Type ' + APP.$type);
+    APP.$type = $('#cardTypeSelect option:selected').val(),
+    console.log('Selected Type ' + APP.$type);
+    UI.resetLevelVariables();
+    UI.clearCardDiv();
     UI.generateBoard();
   }
 } // End of
@@ -48,7 +50,7 @@ var UI = {
   startGame: function() {
     // hide some elements
     $('#cardTypeText').hide();
-    $('#cardTypeSelet').hide();
+    $('#cardTypeSelect').hide();
     $('#buttons').children().hide();
     $('#info').css('display','inline-block');
     $('#feedback').children().hide();
@@ -63,7 +65,7 @@ var UI = {
     $('#go').remove();
 
     $('#cardTypeText').show();
-    $('#cardTypeSelet').show();
+    $('#cardTypeSelect').show();
     $('#buttons').children().show();
     $('#info').css('display','flex');
     $('#info').css('padding','0 80px');
@@ -75,13 +77,13 @@ var UI = {
     } else if ($player == 2) {
       console.log('two players ' +$player);
       $('#cardTypeText').hide();
-      $('#cardTypeSelet').hide();
+      $('#cardTypeSelect').hide();
       $('#buttons').children('#resetLevel').hide();
       UI.underConstruction();
     } else if ($player == 'C') {
       console.log('again computer ' +$player);
       $('#cardTypeText').hide();
-      $('#cardTypeSelet').hide();
+      $('#cardTypeSelect').hide();
       $('#buttons').children('#resetLevel').hide();
       UI.underConstruction();
     }
@@ -133,25 +135,26 @@ var UI = {
   createGameCards: function(){
     // generate random, no repeat numbers (0-99) and put into a temp array.  The number of the number set is half the cards.
     // if 4 Cards on the board, generate 2 numbers
-    // if 100 cards on teh board, generate 50 numbers
+    // if 100 cards on the board, generate 50 numbers
     var tempCards = [];
+    // loop go generate cards
     for (var i=1; i<=APP.numCards/2; i++){
       if (APP.$type === 'number') {
         var num = APP.generateNum(99,0);
-        if (tempCards.indexOf(num) < 0) {
-          tempCards.push(num);
-        } else {
-          i--;
-        }
-      } else if (APP.$type === 'card') {
-        console.log('Card type selected is card: ' +APP.$type);
-      } else if (APP.$type === 'fruit') {
-        console.log('Card type selected is fruit and vegetable: ' +APP.$type);
+      } else {
+        var num = APP.generateNum(50,1);
+      }
+      // if this number has not show up yet, put into tempCards array
+      if (tempCards.indexOf(num) < 0) {
+        tempCards.push(num);
+      } else {
+        // if this number is in tempCards array, go back and run again.
+        i--;
       }
     } // end of loop
     // duplicate the number set and put together
     tempCards = tempCards.concat(tempCards);
-    //console.log('numers ' + tempCards)
+    console.log('card dealed: ' + tempCards)
     // generate random distribute position set
     var tempCardsPosition = [];
     for (var i=1; i<=APP.numCards; i++){
@@ -162,14 +165,27 @@ var UI = {
         i--;
       }
     }
-    //console.log('Postions ' + tempCardsPosition);
+    console.log('Postions ' + tempCardsPosition);
     // distribute the into gameCards
     for (var i=0; i<APP.gameCards.length; i++){
       var ind = tempCardsPosition.indexOf(APP.gameCards[i].cardPosition);
-      //  console.log('Index ' + ind);
-      APP.gameCards[i].cardValue = tempCards[ind];
-    }
-    //console.log(gameCards);
+
+      if (APP.$type === 'number') {
+        APP.gameCards[i].cardValue = tempCards[ind];
+      } else {
+        var seq = tempCards[ind];
+        if (APP.$type === 'card') {
+          APP.gameCards[i].cardValue = DATA.cards.filter(function(element){
+            return element.seq === seq;
+          })[0].img;
+        } else if (APP.$type === 'fruit') {
+          APP.gameCards[i].cardValue = DATA.fruit.filter(function(element){
+            return element.seq === seq;
+          })[0].img;
+        }
+      }
+    } // end of for loop
+      console.log(APP.gameCards);
   }, // end of createGameCards
   // 5 5 5 5 5 5
   // flip the card that clicked
@@ -188,8 +204,19 @@ var UI = {
 
         var tempArr = [tempP,value];
         APP.cardClicked.push(tempArr);
-        $(this).text(value).css('background','lightgreen')
-        //console.log('Card clicked '+cardClicked);
+        if (APP.$type === 'number') {
+          $(this).text(value).css('background','lightgreen')
+          //console.log('Card clicked '+cardClicked);
+        } else if (APP.$type === 'card') {
+          $(this).children('.questionMark').remove();
+          $(this).css('background','green');
+          $(this).append('<img src="images/cards/'+value+'" class="cards">');
+        } else if (APP.$type === 'fruit') {
+          $(this).children('.questionMark').remove();
+          $(this).css('background','green');
+          $(this).append('<img src="images/fruit_veg_img/'+value+'" class="fruits">');
+        }
+
         if (APP.cardClicked.length === 2){
           UI.isMatch(APP.cardClicked);
         }
@@ -232,8 +259,10 @@ var UI = {
         UI.updateSmileFace();
 
         $('#card'+twoCards[0][0]).text('').css('background','yellow');
+        $('#card'+twoCards[0][0]).remove('img');
         $('#card'+twoCards[0][0]).append(APP.questionMarkImg);
         $('#card'+twoCards[1][0]).text('').css('background','yellow');
+        $('#card'+twoCards[1][0]).remove('img');
         $('#card'+twoCards[1][0]).append(APP.questionMarkImg);
         if (APP.live !== 0){
           $('#feedback h4').text('Click a card').css('color','black');
@@ -258,13 +287,17 @@ var UI = {
   // 8 8 8 8 8 8 8
   // move one level up
   levelUp: function(){
-    $('#feedback h4').text('Level completed. Move to next level.').css('color','black');
-    setTimeout(function() {toNextLevel();},1000);
-    var toNextLevel = function(){
-      UI.resetLevelVariables();
-      //UI.clearCardDiv();
-      APP.level++;
-      UI.generateBoard();
+    if (APP.level === 5) {
+      $('#feedback h4').text('Congratulations, you have reach the highest level of the game. Than you for playing').css('color','black');
+    } else {
+      $('#feedback h4').text('Level completed. Move to next level.').css('color','black');
+      setTimeout(function() {toNextLevel();},1000);
+      var toNextLevel = function(){
+        UI.resetLevelVariables();
+        //UI.clearCardDiv();
+        APP.level++;
+        UI.generateBoard();
+      }
     }
   },
   // 9 9 9 9 9 9 9
@@ -328,18 +361,18 @@ var DATA = {
     {seq:49, img:'watermelon.jpg'}, {seq:50, img:'zucchini.jpg'}
   ],
   cards: [
-    {seq:1, img:'club-1.jpg'}, {seq:2, img:'club-3.jpg'},
-    {seq:3, img:'club-4.jpg'}, {seq:4, img:'club-5.jpg'},
-    {seq:5, img:'club-6.jpg'}, {seq:6, img:'club-7.jpg'},
-    {seq:7, img:'club-8.jpg'}, {seq:8, img:'club-9.jpg'},
-    {seq:9, img:'club-10.jpg'}, {seq:10, img:'club-11.jpg'}, {seq:11, img:'club-12.jpg'}, {seq:12, img:'club-13.jpg'},
+    {seq:1, img:'clubs-1.jpg'}, {seq:2, img:'clubs-3.jpg'},
+    {seq:3, img:'clubs-4.jpg'}, {seq:4, img:'clubs-5.jpg'},
+    {seq:5, img:'clubs-6.jpg'}, {seq:6, img:'clubs-7.jpg'},
+    {seq:7, img:'clubs-8.jpg'}, {seq:8, img:'clubs-9.jpg'},
+    {seq:9, img:'clubs-10.jpg'}, {seq:10, img:'clubs-11.jpg'}, {seq:11, img:'clubs-12.jpg'}, {seq:12, img:'clubs-13.jpg'},
     {seq:13, img:'diamond-1.jpg'}, {seq:14, img:'diamond-2.jpg'},
     {seq:15, img:'diamond-3.jpg'}, {seq:16, img:'diamond-4.jpg'},
     {seq:17, img:'diamond-5.jpg'}, {seq:18, img:'diamond-6.jpg'},
     {seq:19, img:'diamond-7.jpg'}, {seq:20, img:'diamond-8.jpg'},
     {seq:21, img:'diamond-9.jpg'}, {seq:22, img:'diamond-10.jpg'},
     {seq:23, img:'diamond-11.jpg'}, {seq:24, img:'diamond-12.jpg'},
-    {seq:25, img:'diamnod-13.jpg'}, {seq:26, img:'heart-1.jpg'},
+    {seq:25, img:'diamond-13.jpg'}, {seq:26, img:'heart-1.jpg'},
     {seq:27, img:'heart-2.jpg'}, {seq:28, img:'heart-3.jpg'},
     {seq:29, img:'heart-4.jpg'}, {seq:30, img:'heart-5.jpg'},
     {seq:31, img:'heart-6.jpg'}, {seq:32, img:'heart-7.jpg'},
