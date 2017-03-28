@@ -10,16 +10,27 @@
     <h1>Memory Game</h1>
 
     <div id='info'>
-      <h3><form>
-        Card Type:
-        <select id='type'>
+      <h3 id='welcome'>Welcome!</h3><br><br>
+      <form>
+        <h3 id='cardTypeText'>Card Type:
+        <select id='cardTypeSelet'>
           <option value="number">numbers</option>
           <option value="card">Cards</option>
           <option value="fruit">Fruits and Vegetables</option>
-        </select></h3>
+        </select>
+      </h3>
+      <h3 id='players'>
+        <input type="radio" name="player" value="1" checked> 1 Player
+        <input type="radio" name="player" value="2"> 2 Players
+        <input type="radio" name="player" value="C"> against computer
+      </h3>
+      </form>
+      <br><br>
+      <button type="button" id="go">Let's play</button>
+
       <h3 id='level'></h3>
       <h3 id='chance'></h3>
-      <div id='button'>
+      <div id='buttons'>
         <button id='resetLevel'>Reset Level</button>
         <button id='resetGame'>Reset Game</button>
       </div>

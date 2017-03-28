@@ -7,6 +7,9 @@ body {
 #info {
   display: flex;
   align-items: baseline;
+  margin: 0 auto;
+
+
 }
 
 h3 {
@@ -57,8 +60,9 @@ button {
   height:25px;
   border: 1px solid black;
   border-radius: 8px;
+  display:inline-block;
 }
 
-#type {
+#cardTypeSelet {
   font-size: 0.8em;
 }
