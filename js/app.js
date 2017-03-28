@@ -20,6 +20,8 @@ var APP = {
   $type: 'number', // default
   width: 80,
   height: 80,
+  $player1Name: '',
+  $player2Name: '',
   player1Score: 0,
   player2Score: 0,
   questionMarkImg: '<img src="images/question_mark.png" class="questionMark">',
@@ -74,7 +76,7 @@ var UI = {
       $('#players').text('');
       $('#players').children('input').remove();
       $('#go').attr('id','play');
-      $('#players').html("Player 1: <input type='text' name='name1' placeholder='enter name'>&nbsp;&nbsp; Player 2: <input type='text' name='name2' placeholder='enter name'>");
+      $('#players').html("Player 1: <input type='text' id='name1' placeholder='enter name'>&nbsp;&nbsp; Player 2: <input type='text' id='name2' placeholder='enter name'>");
       $('#play').on('click', UI.twoPlayersGame);
 
     } else if ($player == 'C') {
@@ -357,7 +359,9 @@ var UI = {
     $('#play').remove();
     $('#buttons').children().show();
     $('#buttons').children('#resetLevel').hide();
-
+    APP.$player1Name = $('#name1').val();
+    APP.$player2Name = $('#name2').val();
+    console.log('Player 1 name: ' + APP.$player1Name + '\nPlayer 2 name: ' + APP.$player2Name);
     APP.$board.html('<br/>').append('<img src="images/maintain.jpg" class="maintain">');
   }
 } // end of UI Object
