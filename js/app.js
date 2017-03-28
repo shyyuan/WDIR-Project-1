@@ -3,7 +3,7 @@ console.log('Project 1 js file is connected');
 $(function(){
   // Event Listener
   $('#go').on('click', UI.setPlayer);
-  $('#cardTypeSelect').on('change', APP.setType);
+  $('#cardTypeSelect').on('change', UI.setType);
   $('#resetLevel').on('click', UI.resetLevel);
   $('#resetGame').on('click', UI.resetGame);
 
@@ -20,10 +20,10 @@ var APP = {
   $type: 'number', // default
   width: 80,
   height: 80,
-  playerScore: 0,
+  player1Score: 0,
+  player2Score: 0,
   questionMarkImg: '<img src="images/question_mark.png" class="questionMark">',
   smileImg: '<img src="images/smile.png" class="smile">',
-  maintain: '<img src="images/maintain.jpg" class="maintain">',
   // per round variables
   gameCards: [], // An array to store object {cardPosition, cardValue}
   gameCardsClicked:[], // An array to store cardPostion number
@@ -32,22 +32,16 @@ var APP = {
   // Math.floor(Math.random * (max-min+1)) + min
   generateNum: function(max,min){
     return Math.floor(Math.random()* (max-min+1)) + min;
-  }, // end of generateNum
-  setType: function(){
-    APP.$type = $('#cardTypeSelect option:selected').val(),
-    console.log('Selected Type ' + APP.$type);
-    UI.resetLevelVariables();
-    UI.clearCardDiv();
-    UI.generateBoard();
-  }
-} // End of
+  } // end of generateNum
+} // End of APP Object
 // =======================================================
 
 // *******************************************************
 // UI object, put all functions that affect the DOM
 var UI = {
-  // 0 0 0 0 0 0
+  // 1 1 1 1 1 1 1
   startGame: function() {
+    //UI.hideGameBoardElements();
     // hide some elements
     $('#cardTypeText').hide();
     $('#cardTypeSelect').hide();
@@ -55,50 +49,71 @@ var UI = {
     $('#info').css('display','inline-block');
     $('#feedback').children().hide();
   },
-  // 1 1 1 1 1 1
+  // 2 2 2 2 2 2 2
   setPlayer: function(){
     $player = $('input[name=player]:checked').val();
     console.log('How many player? ' + $player);
-    $('#welcome').remove();
-    $('#players').text('');
-    $('#players').children('input').remove();
-    $('#go').remove();
 
-    $('#cardTypeText').show();
-    $('#cardTypeSelect').show();
-    $('#buttons').children().show();
-    $('#info').css('display','flex');
-    $('#info').css('padding','0 80px');
-    $('#feedback').children().show();
     if ($player == 1) {
       console.log('one players ' + $player);
+      $('#welcome').remove();
+      $('#players').text('');
+      $('#players').children('input').remove();
+      $('#go').remove();
 
+      $('#cardTypeText').show();
+      $('#cardTypeSelect').show();
+      $('#buttons').children().show();
+      $('#info').css('display','flex');
+      $('#info').css('padding','0 80px');
+      $('#feedback').children().show();
       UI.generateBoard();
     } else if ($player == 2) {
       console.log('two players ' +$player);
-      $('#cardTypeText').hide();
-      $('#cardTypeSelect').hide();
-      $('#buttons').children('#resetLevel').hide();
-      UI.underConstruction();
+      $('#welcome').text('Enter Names');
+      $('#players').text('');
+      $('#players').children('input').remove();
+      $('#go').attr('id','play');
+      $('#players').html("Player 1: <input type='text' name='name1' placeholder='enter name'>&nbsp;&nbsp; Player 2: <input type='text' name='name2' placeholder='enter name'>");
+      $('#play').on('click', UI.twoPlayersGame);
+
     } else if ($player == 'C') {
       console.log('again computer ' +$player);
-      $('#cardTypeText').hide();
-      $('#cardTypeSelect').hide();
+      $('form').children().remove();
+      //$('#players').text('');
+      //$('#players').children('input').remove();
+      $('#go').remove();
+      $('#play').remove();
+      //$('#info').css('display','flex');
+      $('#buttons').children().show();
+      //$('#cardTypeText').hide();
+    //  $('#cardTypeSelect').hide();
       $('#buttons').children('#resetLevel').hide();
       UI.underConstruction();
     }
   },
-
-  // 2 2 2 2 2 2
+  // 3 3 3 3 3 3 3 3
+  // Card Type: number, card, fruit-and-vegi
+  setType: function(){
+    APP.$type = $('#cardTypeSelect option:selected').val(),
+    console.log('Selected Type ' + APP.$type);
+    UI.resetLevelVariables();
+    UI.clearCardDiv();
+    UI.generateBoard();
+  },
+  // 4 4 4 4 4 4 4
   clearCardDiv: function() {
     APP.$board.children('').remove();
   },
-  // 3 3 3 3 3 3
+  // 5 5 5 5 5 5 5
   // generateBoard funrction
   generateBoard: function(){
     UI.clearCardDiv();
     console.log('Level = ' + APP.level );
     APP.live = (APP.level)*2 + APP.liveLeft;
+    if (APP.live > 25) {
+      APP.live =  25;
+    }
     APP.numCards = Math.pow((APP.level)*2,2);
     //console.log(numCards);
     // set board width and heigh based on number of cards
@@ -130,7 +145,7 @@ var UI = {
     $('#feedback h4').text('Click a card to start').css('color','black');
     UI.createGameCards();
   }, // end of generateQuilt
-  // 4 4 4 4 4 4
+  // 6 6 6 6 6 6 6
   //function to create the cards in player
   createGameCards: function(){
     // generate random, no repeat numbers (0-99) and put into a temp array.  The number of the number set is half the cards.
@@ -187,7 +202,7 @@ var UI = {
     } // end of for loop
       console.log(APP.gameCards);
   }, // end of createGameCards
-  // 5 5 5 5 5 5
+  // 7 7 7 7 7 7 7
   // flip the card that clicked
   flipCard: function(){
     var clickable = false;
@@ -231,7 +246,8 @@ var UI = {
       }
     }
   }, // End of flipCard function
-  // 6 6 6 6 6 6 6
+  // 8 8 8 8 8 8 8
+  // check if two flipped cards are match
   isMatch: function(twoCards){
     // twoCards is an Array with two arrays
     if(twoCards[0][1] === twoCards[1][1]) {
@@ -283,7 +299,7 @@ var UI = {
     //clearTimeout(delayTime);
     APP.cardClicked=[];
   }, // end of isMatch checking
-  // 7 7 7 7 7 7
+  // 9 9 9 9 9 9 9
   // reset level round
   resetLevelVariables: function(){
     APP.gameCards = [];
@@ -292,13 +308,13 @@ var UI = {
     //$('#gameBoard div').text('').css('background','yellow');
     //$('#gameBoard div').append(APP.img);
   },
-  // 8 8 8 8 8 8 8
+  // 10 10 10 10 10 10 10
   // move one level up
   levelUp: function(){
     if (APP.level === 5) {
-      $('#feedback h4').text('Congratulations, you have reach the highest level of the game. Than you for playing').css('color','black');
+      $('#feedback h4').text('Congratulations, you have reach the highest level of the game. Than you for playing').css('color','blue');
     } else {
-      $('#feedback h4').text('Level completed. Move to next level.').css('color','black');
+      $('#feedback h4').text('Level completed. Move to next level.').css('color','blue');
       setTimeout(function() {toNextLevel();},1000);
       var toNextLevel = function(){
         UI.resetLevelVariables();
@@ -308,7 +324,7 @@ var UI = {
       }
     }
   },
-  // 9 9 9 9 9 9 9
+  // 11 11 11 11 11 11 11
   updateSmileFace: function(){
     console.log('Live = ' +APP.live);
     $('#chance').children('img').remove();
@@ -316,26 +332,34 @@ var UI = {
       $('#chance').append(APP.smileImg);
     }
   },
-  // 10 10 10 10 10 10
+  // 12 12 12 12 12 12 12
   resetLevel: function(){
     console.log('In resetLevel, level = ' + APP.level);
+    APP.liveLeft = APP.live;
     UI.resetLevelVariables();
     //UI.clearCardDiv();
     //APP.live = 0;
     UI.generateBoard();
   },
-  // 11 11 11 11 11 11
+  // 13 13 13 13 13 13 13
   resetGame: function(){
     APP.level = 1;
     UI.resetLevelVariables();
     location.reload();
   },
+  // 14 14 14 14 14 14 14
   underConstruction: function(){
-    UI.clearCardDiv();
-    APP.$board.append(APP.maintain);
+    // UI.clearCardDiv();
+    APP.$board.html('<br/>').append('<img src="images/maintain.jpg" class="maintain">');
+  },
+  // 15 15 15 15 15 15 15
+  twoPlayersGame: function() {
+    $('#play').remove();
+    $('#buttons').children().show();
+    $('#buttons').children('#resetLevel').hide();
+
+    APP.$board.html('<br/>').append('<img src="images/maintain.jpg" class="maintain">');
   }
-
-
 } // end of UI Object
 // ********************************************************
 
@@ -356,7 +380,7 @@ var DATA = {
     {seq:23, img:'grape.jpg'}, {seq:24, img:'greenbean.jpg'},
     {seq:25, img:'kiwi.jpg'}, {seq:26, img:'lemon.jpg'},
     {seq:27, img:'lettuce.jpg'}, {seq:28, img:'lime.jpg'},
-    {seq:29, img:'lychee.jpg'}, {seq:30, img:'mongo.jpg'},
+    {seq:29, img:'lychee.jpg'}, {seq:30, img:'mango.jpg'},
     {seq:31, img:'mushroom.jpg'}, {seq:32, img:'nectarine.jpg'},
     {seq:33, img:'onion.jpg'}, {seq:34, img:'orange.jpg'},
     {seq:35, img:'papaya.jpg'}, {seq:36, img:'passionfruit.jpg'},
@@ -391,7 +415,7 @@ var DATA = {
     {seq:41, img:'spade-4.jpg'}, {seq:42, img:'spade-5.jpg'},
     {seq:43, img:'spade-6.jpg'}, {seq:44, img:'spade-7.jpg'},
     {seq:45, img:'spade-8.jpg'}, {seq:46, img:'spade-9.jpg'},
-    {seq:47, img:'spade-10.jpg'}, {seq:48, img:'spade-11.jpg'}, {seq:49, img:'spade-12.jpg'}, {seq:50, img:'sapde-13.jpg'},
+    {seq:47, img:'spade-10.jpg'}, {seq:48, img:'spade-11.jpg'}, {seq:49, img:'spade-12.jpg'}, {seq:50, img:'spade-13.jpg'},
   ]
 }
 // ========================================================
