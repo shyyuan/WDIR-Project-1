@@ -32,15 +32,8 @@ h3 {
 }
 
 #gameBoard {
-  /*height: 800px;
-  width: 800px;*/
-  /*display: flex;*/
   margin: 0 auto;
-  /*align-items: flex-start;*/
-  /*justify-content: flex-start;*/
-  /*overflow-y:scroll;*/
-  /*padding-bottom: 60px;*/
-
+  display: block;
 }
 
 .card {
@@ -55,10 +48,6 @@ h3 {
   float: left;
   /*overflow:scroll;*/
   /*background-image: url('image/question_mark.png');*/
-}
-
-.cardFliped {
-
 }
 
 .questionMark {
@@ -96,7 +85,7 @@ button {
   font-size: .8em;
 }
  button:hover {
-   background-color: white;
+   background-color: #0099ff;
    font-weight: bold;
    color: black;
  }

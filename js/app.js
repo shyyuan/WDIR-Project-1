@@ -13,7 +13,7 @@ $(function(){
 //====================================================
 // App data and Global Varibales
 var APP = {
-  level: 2,
+  level: 1,
   live: 0, //this.level+2,
   liveLeft: 0,
   numCards: 0, //Math.pow((this.level+1)*2,2);,
@@ -130,9 +130,9 @@ var UI = {
     // set board width and heigh based on number of cards
     var boardWidth = (APP.level)*2*(APP.width+5)+'px';
     var boardHeigth = ((APP.level)*2*(APP.height+5)+60)+'px';
-    // if (APP.level >=4) {
-    //    boardWidth = ((APP.level)*2*(APP.width+5)+200)+'px';
-    //  }
+    if (APP.level >=4) {
+      $('footer').css('position','relative')
+    }
 
     APP.$board.css({'width':boardWidth,'height':boardHeigth});
     // for loop to generate the cards
