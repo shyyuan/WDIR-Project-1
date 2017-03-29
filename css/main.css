@@ -23,8 +23,8 @@ h1 {
 }
 
 .players {
-  width: 40px;
-  height: 50px;
+  width: 50px;
+  height: 65px;
 }
 h3 {
   display: inline-block;
@@ -115,4 +115,8 @@ footer {
 }
 #love {
   color: red;
+}
+.champion {
+  width: 300px;
+  height: 400px;
 }

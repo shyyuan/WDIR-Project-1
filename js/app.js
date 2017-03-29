@@ -27,6 +27,7 @@ var APP = {
   player2Score: 0,
   questionMarkImg: '<img src="images/question_mark.png" class="questionMark">',
   smileImg: '<img src="images/smile.png" class="smile">',
+  champion: '<img src="images/won.jpeg" class="champion">',
   // per round variables
   gameCards: [], // An array to store object {cardPosition, cardValue}
   gameCardsClicked:[], // An array to store cardPostion number
@@ -119,6 +120,7 @@ var UI = {
   // 5 5 5 5 5 5 5
   // generateBoard funrction
   generateBoard: function(){
+    $('#feedback').children('img').remove();
     UI.clearCardDiv();
     console.log('Level = ' + APP.level );
     APP.live = (APP.level)*2 + APP.liveLeft;
@@ -152,7 +154,7 @@ var UI = {
     } // end of for loop
     //console.log('game cards ' + gameCards);
     $('#level').text('Level: ' + APP.level);
-    $('#chance').text('Lives: ');
+    //$('#chance').text('Lives: ');
     // for (var i=1; i<=APP.live; i++) {
     //   $('#chance').append(APP.smileImg);
     // }
@@ -303,11 +305,16 @@ var UI = {
         $('#card'+twoCards[1][0]).text('').css('background','yellow');
         $('#card'+twoCards[1][0]).remove('img');
         $('#card'+twoCards[1][0]).append(APP.questionMarkImg);
+
         if (APP.live !== 0){
           $('#feedback h4').text('Click a card').css('color','black');
         } else {
+          // no live, no smile face
+          APP.leve = 1;
+          APP.liveLeft = 0;
           UI.clearCardDiv();
           $('#feedback h4').text('Game over. Thank you for playing.').css('color','red');
+          $('#feedback').append('<img src="images/crying.png">');
         }
       }
     }
@@ -327,7 +334,11 @@ var UI = {
   // move one level up
   levelUp: function(){
     if (APP.level === 5) {
-      $('#feedback h4').text('Congratulations, you have reach the highest level of the game. Than you for playing').css('color','blue');
+      UI.clearCardDiv();
+      APP.live = 0;
+      APP.liveLeft = 0;
+      $('#feedback h4').text('Congratulations, you have reached the highest level of the game. Thank you for playing').css('color','blue');
+      $('#feedback').append(APP.champion);
     } else {
       $('#feedback h4').text('Level completed. Move to next level.').css('color','blue');
       setTimeout(function() {toNextLevel();},1000);
@@ -342,14 +353,27 @@ var UI = {
   // 11 11 11 11 11 11 11
   updateSmileFace: function(){
     console.log('Live = ' +APP.live);
-    $('#chance').children('img').remove();
-    for (var i=1; i<=APP.live; i++) {
+    $('#chance').children().remove();
+    $('#chance').text('Lives: ');
+    var noShow = 0;
+    var numSmile = APP.live;
+    if (APP.live > 10) {
+      noShow = APP.live -10;
+      numSmile = 10;
+    }
+    for (var i=1; i<=numSmile; i++) {
       $('#chance').append(APP.smileImg);
+    }
+    if (noShow !== 0) {
+      var tempHtml = '';
+      tempHtml = '</h3><h3>+'+ noShow;
+      $('#chance').append(tempHtml);
     }
   },
   // 12 12 12 12 12 12 12
   resetLevel: function(){
     console.log('In resetLevel, level = ' + APP.level);
+    $('#feedback').children('img').remove();
     APP.liveLeft = APP.live;
     UI.resetLevelVariables();
     //UI.clearCardDiv();
