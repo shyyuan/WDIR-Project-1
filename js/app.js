@@ -396,7 +396,7 @@ var UI = {
   // 14 14 14 14 14 14 14
   underConstruction: function(){
     // UI.clearCardDiv();
-    APP.$board.html('<br/>').append('<img src="images/maintain.JPG" class="maintain">');
+    APP.$board.html('<br/>').append('<img src="images/maintain.jpg" class="maintain">');
   },
   // 15 15 15 15 15 15 15
   twoPlayersGame: function() {
