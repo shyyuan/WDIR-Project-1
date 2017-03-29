@@ -60,6 +60,7 @@ h3 {
 }
 .smile:hover{
   top: -30px;
+  -webkit-top: -30px;
 }
 
 button {
@@ -72,7 +73,9 @@ button {
    background-color: white;
    font-weight: bold;
  }
-
+#playSize {
+  font-size: 0.8em;
+}
 #cardTypeSelect {
   font-size: 0.8em;
 }

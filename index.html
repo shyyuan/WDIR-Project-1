@@ -10,7 +10,36 @@
     <h1>Memory Game</h1>
 
     <div id='info'>
-      <h3 id='welcome'>Welcome!</h3><br><br>
+      <div id='s1SelectPlayerScreen'>
+        <h3 id='welcome'>Welcome!</h3><br><br>
+        <form>
+          <h3 id='players'>
+            <input type="radio" name="player" value="1" checked> 1 Player
+            <input type="radio" name="player" value="2"> 2 Players
+            <input type="radio" name="player" value="C"> against computer
+          </h3><br><br>
+          </form>
+          <button type="button" id="go">Let's play</button>
+      </div>
+
+      <div id='s2EnterNameScreen'>
+        <h3>Enter Names</h3><br><br>
+        <form>
+          <h3>Card Numbers:
+          <select id='playSize'>
+            <option value="6x6">6 x 6</option>
+            <option value="8x8">8 x 8</option>
+            <option value="10x10">10 x 10</option>
+          </select>
+          </h3>&nbsp;&nbsp;&nbsp;&nbsp;
+          <h3>Player 1:
+            <input type="text" id="name1" placeholder="enter player's name">&nbsp;&nbsp;&nbsp;&nbsp;
+            Player 2:
+            <input type="text" id="name2" placeholder="enter player's name"></h3><br><br>
+        </form>
+        <button type="button" id="play">Let's play</button>
+      </div>
+
       <form>
         <h3 id='cardTypeText'>Card Type:
         <select id='cardTypeSelect'>
@@ -18,16 +47,8 @@
           <option value="card">Cards</option>
           <option value="fruit">Fruits and Vegetables</option>
         </select>
-      </h3>
-      <h3 id='players'>
-        <input type="radio" name="player" value="1" checked> 1 Player
-        <input type="radio" name="player" value="2"> 2 Players
-        <input type="radio" name="player" value="C"> against computer
-      </h3>
-      <br><br>
+        </h3>
       </form>
-
-      <button type="button" id="go">Let's play</button>
 
       <h3 id='level'></h3>
       <h3 id='chance'></h3>

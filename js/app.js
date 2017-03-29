@@ -3,6 +3,7 @@ console.log('Project 1 js file is connected');
 $(function(){
   // Event Listener
   $('#go').on('click', UI.setPlayer);
+  $('#play').on('click', UI.twoPlayersGame);
   $('#cardTypeSelect').on('change', UI.setType);
   $('#resetLevel').on('click', UI.resetLevel);
   $('#resetGame').on('click', UI.resetGame);
@@ -45,6 +46,7 @@ var UI = {
   startGame: function() {
     //UI.hideGameBoardElements();
     // hide some elements
+    $('#s2EnterNameScreen').children().hide();
     $('#cardTypeText').hide();
     $('#cardTypeSelect').hide();
     $('#buttons').children().hide();
@@ -58,10 +60,12 @@ var UI = {
 
     if ($player == 1) {
       console.log('one players ' + $player);
-      $('#welcome').remove();
-      $('#players').text('');
-      $('#players').children('input').remove();
-      $('#go').remove();
+      $('#s1SelectPlayerScreen').remove();
+      $('#s2EnterNameScreen').remove();
+      // $('#welcome').remove();
+      // $('#players').text('');
+      // $('#players').children('input').remove();
+      // $('#go').remove();
 
       $('#cardTypeText').show();
       $('#cardTypeSelect').show();
@@ -72,15 +76,20 @@ var UI = {
       UI.generateBoard();
     } else if ($player == 2) {
       console.log('two players ' +$player);
-      $('#welcome').text('Enter Names');
-      $('#players').text('');
-      $('#players').children('input').remove();
-      $('#go').attr('id','play');
-      $('#players').html("Player 1: <input type='text' id='name1' placeholder='enter name'>&nbsp;&nbsp; Player 2: <input type='text' id='name2' placeholder='enter name'>");
-      $('#play').on('click', UI.twoPlayersGame);
+      $('#s1SelectPlayerScreen').remove();
+      //$('#s2EnterNameScreen').show();
+      $('#s2EnterNameScreen').children().show();
+      // $('#welcome').text('Enter Names');
+      // $('#players').text('');
+      // $('#players').children('input').remove();
+      // $('#go').attr('id','play');
+      // $('#players').html("Player 1: <input type='text' id='name1' placeholder='enter name'>&nbsp;&nbsp; Player 2: <input type='text' id='name2' placeholder='enter name'>");
+      // $('#play').on('click', UI.twoPlayersGame);
 
     } else if ($player == 'C') {
       console.log('again computer ' +$player);
+      $('#s1SelectPlayerScreen').remove();
+      $('#s2EnterNameScreen').remove();
       $('form').children().remove();
       //$('#players').text('');
       //$('#players').children('input').remove();
