@@ -1,17 +1,30 @@
 /** { border: 1px solid red;}*/
 body {
+  font-family: 'Carter One', cursive;
+  /*font-family: 'BubbleGum', cursive;*/
   background: lightblue;
   text-align: center;
+  color: #0000ff;
+  font-size: 1.3em;
 }
-
+#welcome {
+  font-family: 'BubbleGum', cursive;
+  font-size: 2em;
+}
+h1 {
+  font-family: 'BubbleGum', cursive;
+  font-size: 3em;
+}
 #info {
   display: flex;
   align-items: baseline;
   margin: 0 auto;
-
-
 }
 
+.players {
+  width: 40px;
+  height: 50px;
+}
 h3 {
   display: inline-block;
   margin: 0 auto;
@@ -20,7 +33,11 @@ h3 {
 #gameBoard {
   /*height: 800px;
   width: 800px;*/
+  /*display: flex;*/
   margin: 0 auto;
+  /*align-items: flex-start;*/
+  /*justify-content: flex-start;*/
+
 }
 
 .card {
@@ -31,8 +48,9 @@ h3 {
   border-radius: 10px;
   display: inline-block;
   background: yellow;
-  font-size: 65px;
-  overflow: auto;
+  font-size: 2.5em;
+  float: left;
+  /*overflow:scroll;*/
   /*background-image: url('image/question_mark.png');*/
 }
 
@@ -64,20 +82,29 @@ h3 {
 }
 
 button {
-  height:25px;
+  height: 30px;
+  width: 100px;
   border: 1px solid black;
   border-radius: 8px;
   display:inline-block;
+  background-color: #202060;
+  color: white;
+  font-family: 'Carter One', cursive;
+  font-size: .8em;
 }
  button:hover {
    background-color: white;
    font-weight: bold;
+   color: black;
  }
 #playSize {
-  font-size: 0.8em;
+  font-size: 0.5em;
 }
 #cardTypeSelect {
-  font-size: 0.8em;
+  font-size: 0.5em;
+}
+#name1, #name2 {
+  height: 20px;
 }
 .fruits {
   width: 80px;
