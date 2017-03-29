@@ -309,12 +309,14 @@ var UI = {
         if (APP.live !== 0){
           $('#feedback h4').text('Click a card').css('color','black');
         } else {
-          // no live, no smile face
+          // no live, no smile face, game over
           APP.leve = 1;
           APP.liveLeft = 0;
           UI.clearCardDiv();
           $('#feedback h4').text('Game over. Thank you for playing.').css('color','red');
-          $('#feedback').append('<img src="images/crying.png">');
+          APP.$board.append('<img src="images/crying.png">');
+          $('footer').css('position','absolute');
+          $('footer').css('bottom','0');
         }
       }
     }
@@ -334,12 +336,17 @@ var UI = {
   // move one level up
   levelUp: function(){
     if (APP.level === 5) {
+      // you won
       UI.clearCardDiv();
       APP.live = 0;
       APP.liveLeft = 0;
       $('#feedback h4').text('Congratulations, you have reached the highest level of the game. Thank you for playing').css('color','blue');
-      $('#feedback').append(APP.champion);
+      APP.$board.append(APP.champion);
+      $('footer').css('position', 'absolute');
+      $('footer').css('bottom','0');
+
     } else {
+      // move up level
       $('#feedback h4').text('Level completed. Move to next level.').css('color','blue');
       setTimeout(function() {toNextLevel();},1000);
       var toNextLevel = function(){
