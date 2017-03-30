@@ -17,9 +17,10 @@ h1 {
   font-size: 3em;
 }
 #info {
-  display: flex;
+  display: inline-block;
   align-items: baseline;
   margin: 0 auto;
+  padding: 0 80px;
 }
 
 .players {
@@ -89,10 +90,10 @@ button {
    font-weight: bold;
    color: black;
  }
-#playSize {
+#playSize, #playSize2 {
   font-size: 0.5em;
 }
-#cardTypeSelect {
+#cardTypeSelect, #cardTypeSelect2 {
   font-size: 0.5em;
 }
 #name1, #name2 {

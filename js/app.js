@@ -3,7 +3,7 @@ console.log('Project 1 js file is connected');
 $(function(){
   // Event Listener
   $('#go').on('click', UI.setPlayer);
-  $('#play').on('click', UI.twoPlayersGame);
+  $('#play').on('click', TWOP_UI.createBoard);
   $('#cardTypeSelect').on('change', UI.setType);
   $('#resetLevel').on('click', UI.resetLevel);
   $('#resetGame').on('click', UI.resetGame);
@@ -21,6 +21,7 @@ var APP = {
   $type: 'number', // default
   width: 80,
   height: 80,
+  $playSize: '6x6',
   $player1Name: '',
   $player2Name: '',
   player1Score: 0,
@@ -45,13 +46,12 @@ var APP = {
 var UI = {
   // 1 1 1 1 1 1 1
   startGame: function() {
-    //UI.hideGameBoardElements();
     // hide some elements
     $('#s2EnterNameScreen').children().hide();
+    $('#s3TwoPlayersScreen').children().hide();
     $('#cardTypeText').hide();
     $('#cardTypeSelect').hide();
     $('#buttons').children().hide();
-    $('#info').css('display','inline-block');
     $('#feedback').children().hide();
   },
   // 2 2 2 2 2 2 2
@@ -63,10 +63,7 @@ var UI = {
       console.log('one players ' + $player);
       $('#s1SelectPlayerScreen').remove();
       $('#s2EnterNameScreen').remove();
-      // $('#welcome').remove();
-      // $('#players').text('');
-      // $('#players').children('input').remove();
-      // $('#go').remove();
+      $('#s3TwoPlayersScreen').remove();
 
       $('#cardTypeText').show();
       $('#cardTypeSelect').show();
@@ -78,30 +75,17 @@ var UI = {
     } else if ($player == 2) {
       console.log('two players ' +$player);
       $('#s1SelectPlayerScreen').remove();
-      //$('#s2EnterNameScreen').show();
       $('#s2EnterNameScreen').children().show();
-      // $('#welcome').text('Enter Names');
-      // $('#players').text('');
-      // $('#players').children('input').remove();
-      // $('#go').attr('id','play');
-      // $('#players').html("Player 1: <input type='text' id='name1' placeholder='enter name'>&nbsp;&nbsp; Player 2: <input type='text' id='name2' placeholder='enter name'>");
-      // $('#play').on('click', UI.twoPlayersGame);
-
+      APP.$board.append('<img src="images/twoPlayers.jpg">');
     } else if ($player == 'C') {
       console.log('again computer ' +$player);
       $('#s1SelectPlayerScreen').remove();
       $('#s2EnterNameScreen').remove();
+      $('#s3TwoPlayersScreen').remove();
       $('form').children().remove();
-      //$('#players').text('');
-      //$('#players').children('input').remove();
-      $('#go').remove();
-      $('#play').remove();
-      //$('#info').css('display','flex');
       $('#buttons').children().show();
-      //$('#cardTypeText').hide();
-    //  $('#cardTypeSelect').hide();
       $('#buttons').children('#resetLevel').hide();
-      UI.underConstruction();
+      APP.$board.html('<br/>').append('<img src="images/maintain.jpg" class="maintain">');
     }
   },
   // 3 3 3 3 3 3 3 3
@@ -392,24 +376,47 @@ var UI = {
     APP.level = 1;
     UI.resetLevelVariables();
     location.reload();
-  },
-  // 14 14 14 14 14 14 14
-  underConstruction: function(){
-    // UI.clearCardDiv();
-    APP.$board.html('<br/>').append('<img src="images/maintain.jpg" class="maintain">');
-  },
-  // 15 15 15 15 15 15 15
-  twoPlayersGame: function() {
-    $('#play').remove();
-    $('#buttons').children().show();
-    $('#buttons').children('#resetLevel').hide();
-    APP.$player1Name = $('#name1').val();
-    APP.$player2Name = $('#name2').val();
-    console.log('Player 1 name: ' + APP.$player1Name + '\nPlayer 2 name: ' + APP.$player2Name);
-    APP.$board.html('<br/>').append('<img src="images/maintain.jpg" class="maintain">');
   }
+  // 14 14 14 14 14 14 14
+  // underConstruction: function(){
+  //   // UI.clearCardDiv();
+  //   APP.$board.html('<br/>').append('<img src="images/maintain.jpg" class="maintain">');
+  // },
+  // 15 15 15 15 15 15 15
+  // twoPlayersGame: function() {
+  //   APP.$playSize = $('#playSize option:selected').val(),
+  //   APP.$player1Name = $('#name1').val();
+  //   APP.$player2Name = $('#name2').val();
+  //   console.log('Player 1 name: ' + APP.$player1Name + '\nPlayer 2 name: ' + APP.$player2Name + ', play card size: ' + APP.$playSize);
+  //   //TWOP_UI.createBoard();
+  // }
 } // end of UI Object
 // ********************************************************
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// Two Players UI
+var TWOP_UI = {
+  createBoard: function() {
+    APP.$playSize = $('#playSize option:selected').val(),
+    APP.$player1Name = $('#name1').val();
+    APP.$player2Name = $('#name2').val();
+    console.log('Player 1 name: ' + APP.$player1Name + '\nPlayer 2 name: ' + APP.$player2Name + ', play card size: ' + APP.$playSize);
+    $('#s2EnterNameScreen').remove();
+    $('#cardTypeText').children().remove();
+    //$('form').children().remove();
+    $('#s3TwoPlayersScreen').children().show();
+    $('#p1Name').text(APP.$player1Name+"'s Score: ");
+    $('#p2Name').text(APP.$player2Name+"'s Score: ");
+    $('#p1Score').text(APP.$player1Score);
+    $('#p2Score').text(APP.$player2Score);
+    $('#buttons').children().show();
+    $('#buttons').children('#resetLevel').remove();
+    UI.clearCardDiv();
+    console.log('In Two Players Mode');
+  }
+} // End of Two Players UI
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 
 // ========================================================
 var DATA = {

@@ -11,6 +11,7 @@
     <h1>Memory Game</h1>
 
     <div id='info'>
+
       <div id='s1SelectPlayerScreen'>
         <h3 id='welcome'>Welcome!</h3><br><br>
         <form>
@@ -25,17 +26,11 @@
           </form>
           <button type="button" id="go">Let's play</button>
       </div>
+      <!-- End of s1SelectPlayerScreen div -->
 
       <div id='s2EnterNameScreen'>
         <h3>Enter Names</h3><br><br>
         <form>
-          <h3>Card Numbers:
-          <select id='playSize'>
-            <option value="6x6">6 x 6</option>
-            <option value="8x8">8 x 8</option>
-            <option value="10x10">10 x 10</option>
-          </select>
-          </h3>&nbsp;&nbsp;&nbsp;&nbsp;
           <h3>Player 1:
             <input type="text" id="name1" placeholder="enter player's name">&nbsp;&nbsp;&nbsp;&nbsp;
             Player 2:
@@ -43,6 +38,28 @@
         </form>
         <button type="button" id="play">Let's play</button>
       </div>
+      <!-- End of s2EnterNameScreen div -->
+
+      <div id='s3TwoPlayersScreen'>
+        <form>
+          <h3 id='cardTypeText2'>Card Type:
+          <select id='cardTypeSelect2'>
+            <option value="number">numbers</option>
+            <option value="card">Cards</option>
+            <option value="fruit">Fruits and Vegetables</option>
+          </select>
+          </h3>&nbsp;&nbsp;&nbsp;&nbsp;
+          <h3>Card Numbers:
+          <select id='playSize2'>
+            <option value="6x6">6 x 6</option>
+            <option value="8x8">8 x 8</option>
+            <option value="10x10">10 x 10</option>
+          </select>&nbsp;&nbsp;&nbsp;&nbsp;
+        </form>
+          <h3 id='p1Name'></h3><h3 id='p1Score'></h3>
+          <h3 id='p2Name'></h3><h3 id='p2Score'></h3>
+      </div>
+      <!-- End of Two playsers scteen -->
 
       <form>
         <h3 id='cardTypeText'>Card Type:
@@ -60,7 +77,10 @@
         <button id='resetLevel'>Reset Level</button>
         <button id='resetGame'>Reset Game</button>
       </div>
+
+
     </div>
+    <!-- End of Info div -->
 
     <div id='feedback'>
       <h4></h4>
