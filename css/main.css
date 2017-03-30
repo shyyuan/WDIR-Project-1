@@ -75,8 +75,10 @@ h3 {
 }
 
 button {
-  height: 30px;
-  width: 100px;
+  /*height: 30px;*/
+  /*width: 100px;*/
+  padding: 0.2em;
+  margin: 0.1em;
   border: 1px solid black;
   border-radius: 8px;
   display:inline-block;
@@ -93,7 +95,7 @@ button {
 #playSize, #playSize2 {
   font-size: 0.5em;
 }
-#cardTypeSelect, #cardTypeSelect2 {
+#cardTypeSelect, #cardTypeSelectForTwo {
   font-size: 0.5em;
 }
 #name1, #name2 {

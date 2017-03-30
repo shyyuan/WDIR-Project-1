@@ -22,8 +22,8 @@ var APP = {
   width: 80,
   height: 80,
   $playSize: '6x6',
-  $player1Name: '',
-  $player2Name: '',
+  $player1Name: 'Player 1',
+  $player2Name: 'Player 2',
   player1Score: 0,
   player2Score: 0,
   questionMarkImg: '<img src="images/question_mark.png" class="questionMark">',
@@ -48,7 +48,10 @@ var UI = {
   startGame: function() {
     // hide some elements
     $('#s2EnterNameScreen').children().hide();
-    $('#s3TwoPlayersScreen').children().hide();
+    $('#cardTypeForTwo').hide();
+    $('#cardTypeSelectForTwo').hide();
+    $('#playSizeText').hide();
+    $('#playSize').hide();
     $('#cardTypeText').hide();
     $('#cardTypeSelect').hide();
     $('#buttons').children().hide();
@@ -63,11 +66,14 @@ var UI = {
       console.log('one players ' + $player);
       $('#s1SelectPlayerScreen').remove();
       $('#s2EnterNameScreen').remove();
-      $('#s3TwoPlayersScreen').remove();
-
+      $('#cardTypeForTwo').remove();
+      $('#cardTypeSelectForTwo').remove();
+      $('#playSizeText').remove();
+      $('#playSize').remove();
       $('#cardTypeText').show();
       $('#cardTypeSelect').show();
       $('#buttons').children().show();
+      $('#buttons').children('#reset2').remove();
       $('#info').css('display','flex');
       $('#info').css('padding','0 80px');
       $('#feedback').children().show();
@@ -81,10 +87,10 @@ var UI = {
       console.log('again computer ' +$player);
       $('#s1SelectPlayerScreen').remove();
       $('#s2EnterNameScreen').remove();
-      $('#s3TwoPlayersScreen').remove();
       $('form').children().remove();
       $('#buttons').children().show();
       $('#buttons').children('#resetLevel').hide();
+      $('#buttons').children('#reset2').remove();
       APP.$board.html('<br/>').append('<img src="images/maintain.jpg" class="maintain">');
     }
   },
@@ -377,19 +383,6 @@ var UI = {
     UI.resetLevelVariables();
     location.reload();
   }
-  // 14 14 14 14 14 14 14
-  // underConstruction: function(){
-  //   // UI.clearCardDiv();
-  //   APP.$board.html('<br/>').append('<img src="images/maintain.jpg" class="maintain">');
-  // },
-  // 15 15 15 15 15 15 15
-  // twoPlayersGame: function() {
-  //   APP.$playSize = $('#playSize option:selected').val(),
-  //   APP.$player1Name = $('#name1').val();
-  //   APP.$player2Name = $('#name2').val();
-  //   console.log('Player 1 name: ' + APP.$player1Name + '\nPlayer 2 name: ' + APP.$player2Name + ', play card size: ' + APP.$playSize);
-  //   //TWOP_UI.createBoard();
-  // }
 } // end of UI Object
 // ********************************************************
 
@@ -397,18 +390,25 @@ var UI = {
 // Two Players UI
 var TWOP_UI = {
   createBoard: function() {
-    APP.$playSize = $('#playSize option:selected').val(),
-    APP.$player1Name = $('#name1').val();
-    APP.$player2Name = $('#name2').val();
+    APP.$playSize = $('#playSize option:selected').val();
+    if ($('#name1').val() !== '') {
+      APP.$player1Name = $('#name1').val();
+    }
+    if ($('#name2').val() !== '') {
+      APP.$player2Name = $('#name2').val();
+    }
+    
     console.log('Player 1 name: ' + APP.$player1Name + '\nPlayer 2 name: ' + APP.$player2Name + ', play card size: ' + APP.$playSize);
     $('#s2EnterNameScreen').remove();
-    $('#cardTypeText').children().remove();
-    //$('form').children().remove();
-    $('#s3TwoPlayersScreen').children().show();
-    $('#p1Name').text(APP.$player1Name+"'s Score: ");
-    $('#p2Name').text(APP.$player2Name+"'s Score: ");
-    $('#p1Score').text(APP.$player1Score);
-    $('#p2Score').text(APP.$player2Score);
+    $('#cardTypeText').remove();
+    $('#cardTypeForTwo').show();
+    $('#cardTypeSelectForTwo').show();
+    $('#playSizeText').show();
+    $('#playSize').show();
+    $('#info').css('display','flex');
+    $('#info').css('padding','0 80px');
+    $('#level').text(APP.$player1Name+"'s Score: " + APP.player1Score);
+    $('#chance').text(APP.$player2Name+"'s Score: " + APP.player2Score);
     $('#buttons').children().show();
     $('#buttons').children('#resetLevel').remove();
     UI.clearCardDiv();

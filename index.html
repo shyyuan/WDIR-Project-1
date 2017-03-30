@@ -17,9 +17,11 @@
         <form>
           <h3 id='players'>
             <input type="radio" name="player" value="1" checked> 1 player
-            <img class="players" src='images/OneKid.jpg'>&nbsp;&nbsp;&nbsp;&nbsp;
+            <img class="players" src='images/OneKid.jpg'>
+            &nbsp;&nbsp;&nbsp;&nbsp;
             <input type="radio" name="player" value="2"> 2 players
-            <img class="players" src='images/TwoKids.jpg'>&nbsp;&nbsp;&nbsp;&nbsp;
+            <img class="players" src='images/TwoKids.jpg'>
+            &nbsp;&nbsp;&nbsp;&nbsp;
             <input type="radio" name="player" value="C"> against computer
             <img class="players" src='images/againstComputer.jpg'>
           </h3><br><br>
@@ -32,7 +34,8 @@
         <h3>Enter Names</h3><br><br>
         <form>
           <h3>Player 1:
-            <input type="text" id="name1" placeholder="enter player's name">&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="text" id="name1" placeholder="enter player's name">
+            &nbsp;&nbsp;&nbsp;&nbsp;
             Player 2:
             <input type="text" id="name2" placeholder="enter player's name"></h3><br><br>
         </form>
@@ -40,28 +43,24 @@
       </div>
       <!-- End of s2EnterNameScreen div -->
 
-      <div id='s3TwoPlayersScreen'>
+
         <form>
-          <h3 id='cardTypeText2'>Card Type:
-          <select id='cardTypeSelect2'>
+          <h3 id='cardTypeForTwo'>Card Type:
+          <select id='cardTypeSelectForTwo'>
             <option value="number">numbers</option>
             <option value="card">Cards</option>
             <option value="fruit">Fruits and Vegetables</option>
           </select>
-          </h3>&nbsp;&nbsp;&nbsp;&nbsp;
-          <h3>Card Numbers:
-          <select id='playSize2'>
+          <!-- </h3> -->
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <h3 id='playSizeText'>Card Numbers:
+          <select id='playSize'>
             <option value="6x6">6 x 6</option>
             <option value="8x8">8 x 8</option>
             <option value="10x10">10 x 10</option>
-          </select>&nbsp;&nbsp;&nbsp;&nbsp;
-        </form>
-          <h3 id='p1Name'></h3><h3 id='p1Score'></h3>
-          <h3 id='p2Name'></h3><h3 id='p2Score'></h3>
-      </div>
-      <!-- End of Two playsers scteen -->
+          </select>
 
-      <form>
+
         <h3 id='cardTypeText'>Card Type:
         <select id='cardTypeSelect'>
           <option value="number">numbers</option>
@@ -74,6 +73,7 @@
       <h3 id='level'></h3>
       <h3 id='chance'></h3>
       <div id='buttons'>
+        <button id='reset2'>Reset Card Type/Number</button>
         <button id='resetLevel'>Reset Level</button>
         <button id='resetGame'>Reset Game</button>
       </div>
