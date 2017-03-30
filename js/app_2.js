@@ -36,7 +36,6 @@ var TWOP_UI = {
     $('#buttons').children('#resetLevel').remove();
     $('#feedback').children().show();
     TWOP_UI.updateFeedbackInfo();
-    UI.clearCardDiv();
     TWOP_UI.createBoard();
     console.log('In Two Players Mode');
   }, // End of createBoardInfo
@@ -48,6 +47,7 @@ var TWOP_UI = {
     }
   }, // end of updateFeedbackInfo
   createBoard: function() {
+    UI.clearCardDiv();
     APP.level = APP.$playSize/2;
     APP.numCards = Math.pow((APP.level)*2,2);
     var boardWidth = (APP.level)*2*(APP.width+5)+'px';
@@ -97,7 +97,7 @@ var TWOP_UI = {
     }
 
     console.log('clickable = ' +clickable);
-    if (APP.live !== 0 && clickable){
+    if (clickable){
       $('#feedback h4').text('Click another card').css('color','black');
 
       var tempArr = [tempP,value];
@@ -111,7 +111,8 @@ var TWOP_UI = {
         $(this).append('<img src="images/cards/'+value+'" class="cards">');
       } else if (APP.$type === 'fruit') {
         $(this).children('.questionMark').remove();
-        $(this).css('background','green');            $(this).append('<img src="images/fruit_veg_img/'+value+'" class="fruits">');
+        $(this).css('background','green');
+        $(this).append('<img src="images/fruit_veg_img/'+value+'" class="fruits">');
       }
 
       if (APP.cardClicked.length === 2){
@@ -119,14 +120,46 @@ var TWOP_UI = {
       }
     }
   }, // End of showCard
-  checkMatch: function(){
+  checkMatch: function(twoCards){
     // like UI.isMatch
-    console.log('check if two cards are matched');
+    // twoCards is an Array with two arrays
+    if(twoCards[0][1] === twoCards[1][1]) {
+      //console.log('match');
+      APP.gameCardsClicked.push(twoCards[0][0]);
+      APP.gameCardsClicked.push(twoCards[1][0]);
+
+      if (APP.p1Turn) {
+        APP.player1Score += 2;
+      } else {
+        APP.player2Score += 2;
+      }
+      $('#feedback h4').text('You found a match. Keep going.').css('color','green');
+      setTimeout(function() {TWOP_UI.updateFeedbackInfo();},1000);
+
+    } else { // no match
+      $('#feedback h4').text('Sorry, no match.  Your turn is over').css('color','red');
+      APP.p1Turn = false;
+
+      setTimeout(function() {flipBack();},700);
+      var flipBack = function(){
+        $('#card'+twoCards[0][0]).text('').css('background','yellow');
+        $('#card'+twoCards[0][0]).remove('img');
+        $('#card'+twoCards[0][0]).append(APP.questionMarkImg);
+        $('#card'+twoCards[1][0]).text('').css('background','yellow');
+        $('#card'+twoCards[1][0]).remove('img');
+        $('#card'+twoCards[1][0]).append(APP.questionMarkImg);
+        TWOP_UI.updateFeedbackInfo();
+      }
+    }
+
   }, // End of checkMatch
   resetBoard: function(){
     // set score back to origin
     // re-create board based on type and number selected
-    APP.$board.html('<br/>').append('<img src="images/maintain.jpg" class="maintain">');
+    APP.$type = $('#cardTypeSelectForTwo option:selected').val(),
+    APP.$playSize = $('#playSize option:selected').val();
+
+    TWOP_UI.createBoard();
 
   } // End of resetBoard
 

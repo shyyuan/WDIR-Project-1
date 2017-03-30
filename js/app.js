@@ -123,7 +123,7 @@ var UI = {
     //console.log(numCards);
     // set board width and heigh based on number of cards
     var boardWidth = (APP.level)*2*(APP.width+5)+'px';
-    var boardHeigth = ((APP.level)*2*(APP.height+5)+60)+'px';
+    var boardHeigth = (APP.level)*2*(APP.height+5)+'px';
     if (APP.level >=4) {
       $('footer').css('position','relative');
     }
