@@ -14,7 +14,9 @@ $(function(){
 // App data and Global Varibales
 var APP = {
   level: 1,
-  live: 0, //this.level+2,
+  maxLevel: 5,
+  live: 0,
+  maxLive: 25,
   liveLeft: 0,
   numCards: 0, //Math.pow((this.level+1)*2,2);,
   $board: $('#gameBoard'),
@@ -27,6 +29,7 @@ var APP = {
   player1Score: 0,
   player2Score: 0,
   round:1,
+  maxRound: 3,
   p1Turn: true,
   p1RoundStartScore: 0,
   p2RoundStartScore: 0,
@@ -34,6 +37,7 @@ var APP = {
   smileImg: '<img src="images/smile.png" class="smile">',
   champion: '<img src="images/won.jpeg" class="champion">',
   handshake: '<img src="images/handshake.jpg" class="handshake">',
+  gameOver: '<img src="images/crying.png">',
   // per round variables
   gameCards: [], // An array to store object {cardPosition, cardValue}
   gameCardsClicked:[], // An array to store cardPostion number
@@ -119,8 +123,8 @@ var UI = {
     UI.clearCardDiv();
     console.log('Level = ' + APP.level );
     APP.live = (APP.level)*2 + APP.liveLeft;
-    if (APP.live > 25) {
-      APP.live =  25;
+    if (APP.live > APP.maxLive) {
+      APP.live =  APP.maxLive;
     }
     APP.numCards = Math.pow((APP.level)*2,2);
     //console.log(numCards);
@@ -149,10 +153,6 @@ var UI = {
     } // end of for loop
     //console.log('game cards ' + gameCards);
     $('#level').text('Level: ' + APP.level);
-    //$('#chance').text('Lives: ');
-    // for (var i=1; i<=APP.live; i++) {
-    //   $('#chance').append(APP.smileImg);
-    // }
     UI.updateSmileFace();
     $('#feedback h4').text('Click a card to start').css('color','black');
     UI.createGameCards();
@@ -309,7 +309,7 @@ var UI = {
           APP.liveLeft = 0;
           UI.clearCardDiv();
           $('#feedback h4').text('Game over. Thank you for playing.').css('color','red');
-          APP.$board.append('<img src="images/crying.png">');
+          APP.$board.append(APP.gameOver);
           $('footer').css('position','absolute');
           $('footer').css('bottom','0');
         }
@@ -324,13 +324,11 @@ var UI = {
     APP.gameCards = [];
     APP.gameCardsClicked = [];
     APP.cardClicked = [];
-    //$('#gameBoard div').text('').css('background','yellow');
-    //$('#gameBoard div').append(APP.img);
   },
   // 10 10 10 10 10 10 10
   // move one level up
   levelUp: function(){
-    if (APP.level === 5) {
+    if (APP.level === APP.maxLevel) {
       // you won
       UI.clearCardDiv();
       APP.live = 0;
@@ -378,14 +376,10 @@ var UI = {
     $('#feedback').children('img').remove();
     APP.liveLeft = APP.live;
     UI.resetLevelVariables();
-    //UI.clearCardDiv();
-    //APP.live = 0;
     UI.generateBoard();
   },
   // 13 13 13 13 13 13 13
   resetGame: function(){
-    //APP.level = 1;
-    //UI.resetLevelVariables();
     location.reload();
   }
 } // end of UI Object
