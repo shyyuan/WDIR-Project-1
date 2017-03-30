@@ -28,9 +28,12 @@ var APP = {
   player2Score: 0,
   round:1,
   p1Turn: true,
+  p1RoundStartScore: 0,
+  p2RoundStartScore: 0,
   questionMarkImg: '<img src="images/question_mark.png" class="questionMark">',
   smileImg: '<img src="images/smile.png" class="smile">',
   champion: '<img src="images/won.jpeg" class="champion">',
+  handshake: '<img src="images/handshake.jpg" class="handshake">',
   // per round variables
   gameCards: [], // An array to store object {cardPosition, cardValue}
   gameCardsClicked:[], // An array to store cardPostion number
@@ -381,8 +384,8 @@ var UI = {
   },
   // 13 13 13 13 13 13 13
   resetGame: function(){
-    APP.level = 1;
-    UI.resetLevelVariables();
+    //APP.level = 1;
+    //UI.resetLevelVariables();
     location.reload();
   }
 } // end of UI Object

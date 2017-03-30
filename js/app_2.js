@@ -8,6 +8,7 @@ $(function(){
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Two Players UI
 var TWOP_UI = {
+  // 1 1 1 1 1 1 1
   initiateBoardInfo: function() {
     APP.$type = $('#cardTypeSelectForTwo option:selected').val(),
     console.log('Selected Type ' + APP.$type);
@@ -39,15 +40,17 @@ var TWOP_UI = {
     TWOP_UI.createBoard();
     console.log('In Two Players Mode');
   }, // End of createBoardInfo
+  // 2 2 2 2 2 2 2 2
   updateFeedbackInfo: function(){
     $('#level').text(APP.$player1Name+"'s Score: " + APP.player1Score);
     $('#chance').text(APP.$player2Name+"'s Score: " + APP.player2Score);
     if (APP.p1Turn) {
-      $('#feedback h4').text(APP.$player1Name+"'s turn. Click a card.").css('color','black');
+      $('#feedback h4').text(APP.$player1Name+"'s turn. Click a card.").css('color','#004466');
     } else {
-      $('#feedback h4').text(APP.$player2Name+"'s turn. Click a card.").css('color','black');
+      $('#feedback h4').text(APP.$player2Name+"'s turn. Click a card.").css('color','#cc7a00');
     }
   }, // end of updateFeedbackInfo
+  // 3 3 3 3 3 3 3 3
   createBoard: function() {
     UI.clearCardDiv();
     APP.level = APP.$playSize/2;
@@ -56,6 +59,8 @@ var TWOP_UI = {
     var boardHeigth = (APP.level)*2*(APP.height+5)+'px';
     if (APP.level >=4) {
       $('footer').css('position','relative');
+    } else {
+      $('footer').css('position','absolute');
     }
     APP.$board.css({'width':boardWidth,'height':boardHeigth});
     // for loop to generate the cards
@@ -75,9 +80,11 @@ var TWOP_UI = {
     } // end of for loop
     TWOP_UI.assignGameCardsValue();
   }, // End of createBoard
+  // 4 4 4 4 4 4 4 4
   assignGameCardsValue: function(){
     UI.createGameCards();
   }, // end of assignGameCardsValue
+  // 5 5 5 5 5 5 5
   showCard: function(){
     // flip card
     var clickable = false;
@@ -123,6 +130,7 @@ var TWOP_UI = {
       }
     }
   }, // End of showCard
+  // 6 6 6 6 6 6 6 6
   checkMatch: function(twoCards){
     // like UI.isMatch
     // twoCards is an Array with two arrays
@@ -137,11 +145,16 @@ var TWOP_UI = {
       } else {
         APP.player2Score += 2;
       }
-      $('#feedback h4').text('You found a match. Keep going.').css('color','green');
-      setTimeout(function() {TWOP_UI.updateFeedbackInfo();},1000);
+      // all cards are flipped
+      if (APP.gameCardsClicked.length === APP.numCards) {
+          TWOP_UI.roundUp();
+      } else {
+        $('#feedback h4').text('You found a match. Keep going.').css('color','green');
+        setTimeout(function() {TWOP_UI.updateFeedbackInfo();},1000);
+      }
 
     } else { // no match
-      $('#feedback h4').text('Sorry, no match.  Your turn is over').css('color','red');
+      $('#feedback h4').text('Sorry, no match. Your turn is over').css('color','#b32d00');
       if (APP.p1Turn) {
         APP.p1Turn = false;
       } else {
@@ -161,16 +174,72 @@ var TWOP_UI = {
     }
     APP.cardClicked=[];
   }, // End of checkMatch
+  // 7 7 7 7 7 7 7
   resetBoard: function(){
     // set score back to origin
     // re-create board based on type and number selected
     APP.$type = $('#cardTypeSelectForTwo option:selected').val(),
     APP.$playSize = $('#playSize option:selected').val();
+    APP.player1Score = APP.p1RoundStartScore;
+    APP.player2Score = APP.p2RoundStartScore;
 
+    TWOP_UI.setWhosTurn();
+    UI.resetLevelVariables();
+    TWOP_UI.updateFeedbackInfo();
     TWOP_UI.createBoard();
 
-  } // End of resetBoard
+  }, // End of resetBoard
+  // 8 8 8 8 8 8
+  roundUp: function(){
+    if (APP.round === 3) {
+      TWOP_UI.checkWinner();
+    } else {
+      $('#feedback h4').text('Round over. Move to next round.').css('color','blue');
+      APP.round++;
+      APP.p1RoundStartScore = APP.player1Score;
+      APP.p2RoundStartScore = APP.player2Score;
+      TWOP_UI.setWhosTurn();
+      $('#round').text('Round: ' + APP.round + '/3');
+      UI.resetLevelVariables();
 
+      setTimeout(function() {
+        TWOP_UI.updateFeedbackInfo();
+        TWOP_UI.createBoard();
+      },1000);
+    }
+  }, // End of roundUp
+  // 9 9 9 9 9 9 9
+  setWhosTurn: function(){
+    // set who's turn
+    if (APP.round === 1){
+      APP.p1Turn = true;
+    } else if (APP.round === 2){
+      APP.p1Turn = false;
+    } else {
+      if (APP.p1RoundStartScore > APP.p2RoundStartScore){
+        APP.p1Turn = true;
+      } else {
+        APP.p1Turn = false;
+      }
+    }
+  }, // End of setWhosTurn
+  // 10 10 10 10 10 10
+  checkWinner: function() {
+    UI.clearCardDiv();
+    if (APP.player1Score === APP.player2Score) {
+      $('#feedback h4').text('It is a tied game. Thank you for playing').css('color','blue');
+      APP.$board.append(APP.handshake);
+    } else {
+      if (APP.player1Score > APP.player2Score) {
+        $('#feedback h4').text(APP.player1Name + 'won the game!').css('color','blue');
+      } else {
+        $('#feedback h4').text(APP.player2Name + 'won the game!').css('color','blue');
+      }
+      APP.$board.append(APP.champion);
+    }
+    $('footer').css('position', 'absolute');
+    $('footer').css('bottom','0');
+  } // End of checkWinner
 
 } // End of Two Players UI
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
