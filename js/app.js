@@ -3,7 +3,7 @@ console.log('Project 1 js file is connected');
 $(function(){
   // Event Listener
   $('#go').on('click', UI.setPlayer);
-  $('#play').on('click', TWOP_UI.createBoard);
+  $('#play').on('click', TWOP_UI.initiateBoardInfo);
   $('#cardTypeSelect').on('change', UI.setType);
   $('#resetLevel').on('click', UI.resetLevel);
   $('#resetGame').on('click', UI.resetGame);
@@ -21,11 +21,13 @@ var APP = {
   $type: 'number', // default
   width: 80,
   height: 80,
-  $playSize: '6x6',
+  $playSize: 6,
   $player1Name: 'Player 1',
   $player2Name: 'Player 2',
   player1Score: 0,
   player2Score: 0,
+  round:1,
+  p1Turn: true,
   questionMarkImg: '<img src="images/question_mark.png" class="questionMark">',
   smileImg: '<img src="images/smile.png" class="smile">',
   champion: '<img src="images/won.jpeg" class="champion">',
@@ -123,7 +125,7 @@ var UI = {
     var boardWidth = (APP.level)*2*(APP.width+5)+'px';
     var boardHeigth = ((APP.level)*2*(APP.height+5)+60)+'px';
     if (APP.level >=4) {
-      $('footer').css('position','relative')
+      $('footer').css('position','relative');
     }
 
     APP.$board.css({'width':boardWidth,'height':boardHeigth});
@@ -385,37 +387,6 @@ var UI = {
   }
 } // end of UI Object
 // ********************************************************
-
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// Two Players UI
-var TWOP_UI = {
-  createBoard: function() {
-    APP.$playSize = $('#playSize option:selected').val();
-    if ($('#name1').val() !== '') {
-      APP.$player1Name = $('#name1').val();
-    }
-    if ($('#name2').val() !== '') {
-      APP.$player2Name = $('#name2').val();
-    }
-    
-    console.log('Player 1 name: ' + APP.$player1Name + '\nPlayer 2 name: ' + APP.$player2Name + ', play card size: ' + APP.$playSize);
-    $('#s2EnterNameScreen').remove();
-    $('#cardTypeText').remove();
-    $('#cardTypeForTwo').show();
-    $('#cardTypeSelectForTwo').show();
-    $('#playSizeText').show();
-    $('#playSize').show();
-    $('#info').css('display','flex');
-    $('#info').css('padding','0 80px');
-    $('#level').text(APP.$player1Name+"'s Score: " + APP.player1Score);
-    $('#chance').text(APP.$player2Name+"'s Score: " + APP.player2Score);
-    $('#buttons').children().show();
-    $('#buttons').children('#resetLevel').remove();
-    UI.clearCardDiv();
-    console.log('In Two Players Mode');
-  }
-} // End of Two Players UI
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 // ========================================================
