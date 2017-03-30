@@ -35,6 +35,7 @@ var APP = {
   p2RoundStartScore: 0,
   questionMarkImg: '<img src="images/question_mark.png" class="questionMark">',
   smileImg: '<img src="images/smile.png" class="smile">',
+  smileImgRed: '<img src="images/red-smiley.png" class="smile">',
   champion: '<img src="images/won.jpeg" class="champion">',
   handshake: '<img src="images/handshake.jpg" class="handshake">',
   gameOver: '<img src="images/crying.png">',
@@ -362,7 +363,11 @@ var UI = {
       numSmile = 10;
     }
     for (var i=1; i<=numSmile; i++) {
-      $('#chance').append(APP.smileImg);
+      if (i<=3){
+        $('#chance').append(APP.smileImgRed);
+      } else {
+        $('#chance').append(APP.smileImg);
+      }
     }
     if (noShow !== 0) {
       var tempHtml = '';
