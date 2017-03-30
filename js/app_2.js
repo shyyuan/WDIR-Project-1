@@ -40,6 +40,8 @@ var TWOP_UI = {
     console.log('In Two Players Mode');
   }, // End of createBoardInfo
   updateFeedbackInfo: function(){
+    $('#level').text(APP.$player1Name+"'s Score: " + APP.player1Score);
+    $('#chance').text(APP.$player2Name+"'s Score: " + APP.player2Score);
     if (APP.p1Turn) {
       $('#feedback h4').text(APP.$player1Name+"'s turn. Click a card.").css('color','black');
     } else {
@@ -116,6 +118,7 @@ var TWOP_UI = {
       }
 
       if (APP.cardClicked.length === 2){
+        console.log('tow players, check match');
         TWOP_UI.checkMatch(APP.cardClicked);
       }
     }
@@ -123,6 +126,7 @@ var TWOP_UI = {
   checkMatch: function(twoCards){
     // like UI.isMatch
     // twoCards is an Array with two arrays
+    console.log('In two players checkMatch block');
     if(twoCards[0][1] === twoCards[1][1]) {
       //console.log('match');
       APP.gameCardsClicked.push(twoCards[0][0]);
@@ -138,7 +142,11 @@ var TWOP_UI = {
 
     } else { // no match
       $('#feedback h4').text('Sorry, no match.  Your turn is over').css('color','red');
-      APP.p1Turn = false;
+      if (APP.p1Turn) {
+        APP.p1Turn = false;
+      } else {
+        APP.p1Turn = true;
+      }
 
       setTimeout(function() {flipBack();},700);
       var flipBack = function(){
@@ -151,7 +159,7 @@ var TWOP_UI = {
         TWOP_UI.updateFeedbackInfo();
       }
     }
-
+    APP.cardClicked=[];
   }, // End of checkMatch
   resetBoard: function(){
     // set score back to origin
