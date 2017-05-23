@@ -66,6 +66,8 @@ var UI = {
     $('#cardTypeSelect').hide();
     $('#buttons').children().hide();
     $('#feedback').children().hide();
+    $('#footer').css('position','absolute');
+    $('#footer').css('bottom','0');
   },
   // 2 2 2 2 2 2 2
   setPlayer: function(){
@@ -93,6 +95,9 @@ var UI = {
       $('#s1SelectPlayerScreen').remove();
       $('#s2EnterNameScreen').children().show();
       APP.$board.append('<img src="images/twoPlayers.jpg">');
+      $('#footer').css('position','relative');
+      // $('#footer').css('bottom','-5');
+
     } else if ($player == 'C') {
       console.log('again computer ' +$player);
       $('#s1SelectPlayerScreen').remove();
@@ -102,6 +107,8 @@ var UI = {
       $('#buttons').children('#resetLevel').hide();
       $('#buttons').children('#reset2').remove();
       APP.$board.html('<br/>').append('<img src="images/maintain.jpg" class="maintain">');
+      $('#footer').css('position','relative');
+
     }
   },
   // 3 3 3 3 3 3 3 3
@@ -132,8 +139,8 @@ var UI = {
     // set board width and heigh based on number of cards
     var boardWidth = (APP.level)*2*(APP.width+5)+'px';
     var boardHeigth = (APP.level)*2*(APP.height+5)+'px';
-    if (APP.level >=4) {
-      $('footer').css('position','relative');
+    if (APP.level >=3) {
+      $('#footer').css('position','relative');
     }
 
     APP.$board.css({'width':boardWidth,'height':boardHeigth});
@@ -311,8 +318,8 @@ var UI = {
           UI.clearCardDiv();
           $('#feedback h4').text('Game over. Thank you for playing.').css('color','red');
           APP.$board.append(APP.gameOver);
-          $('footer').css('position','absolute');
-          $('footer').css('bottom','0');
+          //$('#footer').css('position','absolute');
+          //$('#footer').css('bottom','0');
         }
       }
     }
@@ -336,8 +343,8 @@ var UI = {
       APP.liveLeft = 0;
       $('#feedback h4').text('Congratulations, you have reached the highest level of the game. Thank you for playing').css('color','blue');
       APP.$board.append(APP.champion);
-      $('footer').css('position', 'absolute');
-      $('footer').css('bottom','0');
+      //$('#footer').css('position', 'absolute');
+      //$('#footer').css('bottom','0');
 
     } else {
       // move up level

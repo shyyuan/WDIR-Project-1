@@ -30,6 +30,7 @@ var TWOP_UI = {
     $('#buttons').children().show();
     $('#buttons').children('#resetLevel').remove();
     $('#feedback').children().show();
+    $('#footer').css('position','relative');
     TWOP_UI.updateInfo();
     TWOP_UI.updateFeedback();
     TWOP_UI.createBoard();
@@ -55,10 +56,10 @@ var TWOP_UI = {
     APP.numCards = Math.pow((APP.level)*2,2);
     var boardWidth = (APP.level)*2*(APP.width+5)+'px';
     var boardHeigth = (APP.level)*2*(APP.height+5)+'px';
-    if (APP.level >=4) {
-      $('footer').css('position','relative');
+    if (APP.level >=3) {
+      $('#footer').css('position','relative');
     } else {
-      $('footer').css('position','absolute');
+      $('#footer').css('position','absolute');
     }
     APP.$board.css({'width':boardWidth,'height':boardHeigth});
     // for loop to generate the cards
@@ -238,8 +239,8 @@ var TWOP_UI = {
       }
       APP.$board.append(APP.champion);
     }
-    $('footer').css('position', 'absolute');
-    $('footer').css('bottom','0');
+    $('#footer').css('position', 'absolute');
+    $('#footer').css('bottom','0');
   } // End of checkWinner
 
 } // End of Two Players UI
